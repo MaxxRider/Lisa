@@ -40,10 +40,5 @@ class _BotCommands:
         self.QbZipLeechCommand = 'qbzipleech1'
         self.LeechWatchCommand = 'leechwatch1'
         self.LeechZipWatchCommand = 'leechzipwatch1'
-        self.RssListCommand = 'rsslist'
-        self.RssGetCommand = 'rssget'
-        self.RssSubCommand = 'rsssub'
-        self.RssUnSubCommand = 'rssunsub'
-        self.RssUnSubAllCommand = 'rssunsuball'
 
 BotCommands = _BotCommands()
