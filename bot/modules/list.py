@@ -15,7 +15,7 @@ def list_buttons(update, context):
     try:
         key = update.message.text.split(" ", maxsplit=1)[1]
     except IndexError:
-        return sendMessage('<b> Opps</b> 🤦 \n\n<b>How to search? </b>\n\n<b>🔎 Example:</b> <code>/find Money Heist</code>', context.bot, update)
+        return sendMessage('<b> Opps</b> 🤦 \n\n<b>How to search? </b>\n\n<b>🔎 Example:</b> <code>/list Money Heist</code>', context.bot, update)
     buttons = button_build.ButtonMaker()
     buttons.sbutton("Drive Root", f"types {user_id} root")
     buttons.sbutton("Recursive", f"types {user_id} recu")
