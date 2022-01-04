@@ -217,7 +217,7 @@ class MirrorListener(listeners.MirrorListeners):
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             count = len(files)
             msg = f'<b>☞📂 Filename : </b><code>{link}</code>\n\n'
-            msg += f'<b>📑 Total Files: </b>{count}</code>'
+            msg += f'<b>📑 Total Files: </b>{count}'
             if typ != 0:
                 msg += f'\n<b>Corrupted Files: </b>{typ}'
             if self.message.chat.type == 'private':
@@ -254,11 +254,11 @@ class MirrorListener(listeners.MirrorListeners):
                 return
 
         with download_dict_lock:
-            msg = f'<b>☞📂 Filename: </b><code>{download_dict[self.uid].name()}</code>\n\n<b>☞⭐️ Total Size: </b><code>{size}</code>'
-            msg += f'\n\n<b>☞⚔️ Type: </b><code>{typ}</code>'
+            msg = f'<b>☞📂 Filename: </b><code>{download_dict[self.uid].name()}</code>\n\n<b>☞⭐️ Total Size: </b>{size}'
+            msg += f'\n\n<b>☞⚔️ Type: </b>{typ}'
             if os.path.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
-                msg += f'\n<b>✉️ SubFolders: </b><code>{folders}</code>'
-                msg += f'\n<b>📋 Files: </b><code>{files}</code>'
+                msg += f'\n<b>✉️ SubFolders: </b>{folders}'
+                msg += f'\n<b>📋 Files: </b>{files}'
             buttons = button_build.ButtonMaker()
             link = short_url(link)
             buttons.buildbutton("☁️ Drive Link ☁️", link)
