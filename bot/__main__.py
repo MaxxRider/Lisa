@@ -3,7 +3,9 @@ import signal
 import os
 import asyncio
 import time
+from datetime import datetime
 import subprocess
+import pytz
 
 from pyrogram import idle
 from sys import executable
@@ -11,7 +13,7 @@ from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, TIMEZONE, RESTARTED_GROUP_ID, RESTARTED_GROUP_ID2, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
@@ -21,6 +23,7 @@ from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, speedtest, count, leech_settings, search
 
+now = datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
@@ -241,7 +244,21 @@ botcmds = [
     ]
 
 def main():
-    # bot.set_my_commands(botcmds)
+    # Heroku restarted
+    GROUP_ID = f'{RESTARTED_GROUP_ID}'
+    kie = datetime.now(pytz.timezone(f'{TIMEZONE}'))
+    jam = kie.strftime('\n📆 <b>DATE:</b> %d/%m/%Y\n⏰ <b>TIME:</b> %I:%M%P')
+    if GROUP_ID is not None and isinstance(GROUP_ID, str):
+        try:
+            dispatcher.bot.sendMessage(
+                f"{GROUP_ID}", f"💠 <b>BOT GOT RESTARTED</b> 💠\n{jam}\n\n🕗 <b>TIME ZONE</b>\n{TIMEZONE}\n\n<b>PLEASE RE-DOWNLOAD AGAIN</b>\n\n#Restarted")
+        except Unauthorized:
+            LOGGER.warning(
+                "Bot isnt able to send message to support_chat, go and check!"
+            )
+        except BadRequest as e:
+            LOGGER.warning(e.message)
+ 
     fs_utils.start_cleanup()
     if IS_VPS:
         asyncio.new_event_loop().run_until_complete(start_server_async(PORT))
@@ -251,15 +268,6 @@ def main():
             chat_id, msg_id = map(int, f)
         bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         os.remove(".restartmsg")
-    elif OWNER_ID:
-        try:
-            text = "<b>Bot Restarted!</b>"
-            bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
-            if AUTHORIZED_CHATS:
-                for i in AUTHORIZED_CHATS:
-                    bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
-        except Exception as e:
-            LOGGER.warning(e)
 
     start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,
