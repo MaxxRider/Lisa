@@ -5,6 +5,7 @@ import threading
 
 from pyrogram.errors import FloodWait, RPCError
 from PIL import Image
+#from asgiref.sync import async_to_sync
 
 from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME
 from bot.helper.ext_utils.fs_utils import take_ss, get_media_info, get_video_resolution
