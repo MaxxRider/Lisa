@@ -301,24 +301,6 @@ try:
         ZIP_UNZIP_LIMIT = float(ZIP_UNZIP_LIMIT)
 except KeyError:
     ZIP_UNZIP_LIMIT = None
-    try:
-    TIMEZONE = getConfig('TIMEZONE')
-    if len(TIMEZONE) == 0:
-        TIMEZONE = None
-except KeyError:
-    TIMEZONE = 'Asia/Kolkata'
-try:
-    RESTARTED_GROUP_ID = getConfig('RESTARTED_GROUP_ID')
-    if len(RESTARTED_GROUP_ID) == 0:
-        RESTARTED_GROUP_ID = None
-except KeyError:
-    RESTARTED_GROUP_ID = '-1001519439818'
-try:
-    RESTARTED_GROUP_ID2 = getConfig('RESTARTED_GROUP_ID2')
-    if len(RESTARTED_GROUP_ID2) == 0:
-        RESTARTED_GROUP_ID2 = None
-except KeyError:
-    RESTARTED_GROUP_ID2 = '-1001519439818' 
 try:
     BUTTON_FOUR_NAME = getConfig('BUTTON_FOUR_NAME')
     BUTTON_FOUR_URL = getConfig('BUTTON_FOUR_URL')
